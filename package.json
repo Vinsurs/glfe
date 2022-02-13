@@ -1,0 +1,33 @@
+{
+    "name": "glfe",
+    "version": "0.1.0",
+    "description": "A simple but powerful dot-notation prop path util",
+    "keywords": [
+        "dot-notation",
+        "glfe",
+        "paths"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Vinsurs/glfe.git"
+    },
+    "license": "MIT",
+    "author": {
+        "email": "2407232109@qq.com",
+        "name": "Vinsurs"
+    },
+    "main": "index.min.js",
+    "types": "index.d.ts",
+    "bugs": {
+        "url": "https://github.com/Vinsurs/date-fm/issues",
+        "email": "2407232109@qq.com"
+    },
+    "scripts": {
+        "build": "uglifyjs index.js -c -o index.min.js",
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "mocha": "^7.1.1",
+        "uglify-js": "^3.15.1"
+    }
+}
