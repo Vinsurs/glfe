@@ -18,4 +18,28 @@ describe('glfe api', function() {
       obj,
     );
   });
+  it('would throw error when get an non-exist prop path', () => {
+    let obj = {
+      foo: {
+        bar: "bar"
+      }
+    }
+    assert.throws(
+      () => glfe.get(obj, 'foo.not.exist.prop'), 
+      err => {
+        assert(err instanceof Error)
+        return true
+      },
+      'expected error'
+    )
+  })
+  it('would be undefined instead of throw error when find an non-exist prop path', () => {
+    let obj = {
+      foo: {
+        bar: "bar"
+      }
+    }
+    assert.doesNotThrow(() => glfe.find(obj, 'foo.not.exist.prop'))
+    assert.deepEqual(glfe.find(obj, 'foo.not.exist.prop'), undefined)
+  })
 });

@@ -17,6 +17,7 @@ yarn add glfe
 <script>
     var glfe = window.glfe
     glfe.get(...)
+    glfe.find(...)
     glfe.set(...)
 </script>
 ```
@@ -41,6 +42,8 @@ var obj = {
 console.log(glfe.get(obj, "a.b.c[0].d[0].e"))
 console.log(glfe.get(obj, "a.b.f"))
 console.log(glfe.get(obj, "a[b]"))
+console.log(glfe.get(obj, "not.exist.prop"))   // throw error
+console.log(glfe.find(obj, "not.exist.prop"))  // undefined
 // you can use "!" flag to tell `glfe` to make an array instead of an object
 var seter = glfe.set(obj, "a[b][r!][2]", 66)
 console.log(seter)
@@ -51,7 +54,10 @@ console.log(obj===seter) // true
 
 #### glfe#get(target, propPath)
 
-get prop value with dot-notation from target object
+Get prop value with dot-notation from target object. It would throw error when the prop path is not exist, if you want to avoid it please use `find` instead of `get`
+#### glfe#find(target, propPath)
+
+Same as `get` except it would return undefined when the prop path is not exist, if you want to avoid it please use `get` instead of `find`
 
 #### glfe#set(target, propPath, value)
 

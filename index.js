@@ -14,8 +14,12 @@
         global.glfe = factory()
     }
 })(this, function() {
+    var toString = Object.prototype.toString
     var arrayPropFlag = "!"
     var arrayPropReg = new RegExp("^[\\w\\$]+" + arrayPropFlag + "$")
+    function isPlainObject(target) {
+        return toString.call(target) === "[object Object]"
+    }
     function hasSB(propPart) {
         return propPart.indexOf("[") !== -1
     }
@@ -25,6 +29,10 @@
      * @returns 
      */
     function get(target, propPath) {
+        if(!isPlainObject) {
+            warn(`"target" must be a plain object.`)
+            return target
+        }
         if(!isValidPropPath(propPath)) {
             warn(`"propPath" must be a non-empty prop path string.`)
             return target
@@ -39,10 +47,35 @@
     /**
      * @param {Object} target 
      * @param {string} propPath 
+     * @returns 
+     */
+    function find(target, propPath) {
+        if(!isPlainObject) {
+            warn(`"target" must be a plain object.`)
+            return target
+        }
+        if(!isValidPropPath(propPath)) {
+            warn(`"propPath" must be a non-empty prop path string.`)
+            return target
+        }
+        return propPath.split(".").reduce((prev, next) => {
+            if(hasSB(next)) {
+                return next.replace(/\]/g, "").split("[").reduce((b, a) => (b && b[a]) ? b[a] : undefined, prev)
+            }
+            return (prev && prev[next]) ? prev[next] : undefined
+        }, target)
+    }
+    /**
+     * @param {Object} target 
+     * @param {string} propPath 
      * @param {*} value 
      * @returns 
      */
     function set(target, propPath, value) {
+        if(!isPlainObject) {
+            warn(`"target" must be a plain object.`)
+            return target
+        }
         if(!isValidPropPath(propPath)) {
             warn(`"propPath" must be a non-empty prop path string.`)
             return target
@@ -103,6 +136,7 @@
     }
     return {
         get,
-        set
+        set,
+        find
     }
 })

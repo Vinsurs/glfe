@@ -2,6 +2,7 @@ declare module "glfe" {
     /**
      * @param target plain object, array is not support
      * @param propPath dot-notation prop path string
+     * @note it would throw error when the prop path is not exist, if you want to avoid it please use `find` instead of `get`
      * @docs https://github.com/Vinsurs/glfe
      * @example
      * ```js
@@ -11,9 +12,27 @@ declare module "glfe" {
      * glfe.get(obj, "a.b[0].c")
      * // glfe.get(obj, "a.b.[0].c") // not supported!!!
      * glfe.get(obj, "a[b][0][c]")
+     * glfe.get(obj, "not.exist.prop") // throw error
      * ```
      */
     export function get(target: Record<string, any>, propPath: string): any
+    /**
+     * @param target plain object, array is not support
+     * @param propPath dot-notation prop path string
+     * @note Same as `get` except it would return undefined when the prop path is not exist, if you want to avoid it please use `get` instead of `find`
+     * @docs https://github.com/Vinsurs/glfe
+     * @example
+     * ```js
+     * import glfe from "glfe"
+     * var obj = { a: { b: [ { c: 5 } ]}}
+     * glfe.find(obj, "a.b")
+     * glfe.find(obj, "a.b[0].c")
+     * // glfe.find(obj, "a.b.[0].c") // not supported!!!
+     * glfe.find(obj, "a[b][0][c]")
+     * glfe.find(obj, "not.exist.prop") // undefined
+     * ```
+     */
+    export function find(target: Record<string, any>, propPath: string): any
     /**
      * 
      * @param target plain object, array is not support
