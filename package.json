@@ -39,8 +39,8 @@
         "release": "yarn test && yarn build && np"
     },
     "np": {
-        "yarn": false,
-        "tests": false
+        "tests": false,
+        "cleanup": false
     },
     "devDependencies": {
         "mocha": "^7.1.1",
