@@ -42,4 +42,22 @@ describe('glfe api', function() {
     assert.doesNotThrow(() => glfe.find(obj, 'foo.not.exist.prop'))
     assert.deepEqual(glfe.find(obj, 'foo.not.exist.prop'), undefined)
   })
+  it('would not be undefined when find the prop value is falsy', () => {
+    let obj = {
+      foo: {
+        zero: 0,
+        empty: '',
+        nan: NaN,
+        undef: undefined,
+        nil: null,
+        bFalse: false
+      }
+    }
+    assert.deepEqual(glfe.find(obj, 'foo.zero'), 0)
+    assert.deepEqual(glfe.find(obj, 'foo.empty'), "")
+    assert.deepEqual(isNaN(glfe.find(obj, 'foo.nan')), true)
+    assert.deepEqual(glfe.find(obj, 'foo.undef'), undefined)
+    assert.deepEqual(glfe.find(obj, 'foo.nil'), null)
+    assert.deepEqual(glfe.find(obj, 'foo.bFalse'), false)
+  })
 });

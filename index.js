@@ -20,6 +20,9 @@
     function isPlainObject(target) {
         return toString.call(target) === "[object Object]"
     }
+    function isDefined(value) {
+        return toString.call(value) !== "[object Undefined]"
+    }
     function hasSB(propPart) {
         return propPart.indexOf("[") !== -1
     }
@@ -60,9 +63,9 @@
         }
         return propPath.split(".").reduce((prev, next) => {
             if(hasSB(next)) {
-                return next.replace(/\]/g, "").split("[").reduce((b, a) => (b && b[a]) ? b[a] : undefined, prev)
+                return next.replace(/\]/g, "").split("[").reduce((b, a) => (isDefined(b) && isDefined(b[a])) ? b[a] : undefined, prev)
             }
-            return (prev && prev[next]) ? prev[next] : undefined
+            return (isDefined(prev) && isDefined(prev[next])) ? prev[next] : undefined
         }, target)
     }
     /**
